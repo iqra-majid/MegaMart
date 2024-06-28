@@ -66,25 +66,25 @@ const Navbar = ({
         >
           {dropdown && (
             <div
-              className="absolute right-5 bg-pink-400 top-9 px-5 rounded-md w-40"
+              className="absolute right-5 bg-pink-400 top-6 px-5 rounded-md w-40"
               onMouseOver={() => {
                 setDropdown(true);
               }}
               onMouseLeave={() => {
                 setDropdown(false);
-              }}
+              }} 
             >
               <ul>
-                <li className="py-1 hover:text-pink-700 text-sm">My Account</li>
-                <li className="py-1 hover:text-pink-700 text-sm">Orders</li>
-                <li onClick={logout} className="py-1 hover:text-pink-700 text-sm">Logout</li>
+                <Link href={'/myacount'}><li className="py-1 hover:text-pink-700 text-sm font-bold">My Account</li></Link>
+                <Link href={'/orders'}><li className="py-1 hover:text-pink-700 text-sm font-bold">Orders</li></Link>
+                <li onClick={logout} className="py-1 hover:text-pink-700 text-sm font-bold">Logout</li>
               </ul>
             </div>
           )}
           {/* {user.value && ( */}
             <MdAccountCircle className="text-xl md:text-3xl mx-2" />
           {/* )} */}
-        </a>
+        </a> 
 
         {/* {!user.value && (
           <Link href="/login">

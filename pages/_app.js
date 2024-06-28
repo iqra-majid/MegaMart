@@ -100,7 +100,8 @@ export default function App({ Component, pageProps }) {
   };
 
   const logout  = ()=>{
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
+    setUser({value:null})
     setKey(Math.random())
   }
 
