@@ -25,13 +25,15 @@ export default function App({ Component, pageProps }) {
       localStorage.clear();
     }
 
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
+    // console.log('Retrieved token:', token);
     if(token){
       setUser({user:token})
       setKey(Math.random())
+      console.log(user);
     }
 
-  }, []);
+  }, [router.query]);
 
   const saveCart = (myCart) => {
     localStorage.setItem("cart", JSON.stringify(myCart));
@@ -97,10 +99,16 @@ export default function App({ Component, pageProps }) {
     saveCart(newCart);
   };
 
+  const logout  = ()=>{
+    localStorage.removeItem('token')
+    setKey(Math.random())
+  }
+
   return (
     <>
       {/* Passing these methods to navbar and components so we can use them  */}
       <Navbar
+      logout={logout}
       key={key}
       user={user}
         cart={cart}
