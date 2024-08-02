@@ -1,12 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Forgot = () => {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
+  }, [router]); // Add router as a dependency here
+
+  const handleChange = (e) => {
+    if (e.target.name == "email") {
+      setEmail(e.target.value);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(""); // Clear previous error message
+      const response = await fetch("/api/forgot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const res = await response.json();
+      if (res.success) {
+        console.log("Password reset email sent.");
+      } else {
+        
+        setError(res.error)
+      }
+    
+  };
+
   return (
-    <div className="font-[sans-serif] min-h-screen flex items-center justify-center">
+    <div className="min-h-screen font-[sans-serif] flex items-start  pt-28 px-4 justify-center">
+      <Head>
+        <title>Forgot Password - MegaMart</title>
+      </Head>
       <div className="flex flex-col items-center justify-center py-6 px-4">
         <div className="border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)]">
-          <form className="space-y-4">
+          <form  className="space-y-4">
             <div className="mb-8">
               <h3 className="text-gray-800 text-3xl font-extrabold">
                 Forgot password
@@ -25,12 +65,14 @@ const Forgot = () => {
               <label className="text-gray-800 text-sm mb-2 block">Email</label>
               <div className="relative flex items-center">
                 <input
+                  placeholder="Enter your email"
+                  onChange={handleChange}
+                  value={email}
                   id="email"
                   name="email"
                   type="email"
                   required
                   className="w-full text-sm text-gray-800 border border-gray-300 px-4 py-3 rounded-lg outline-pink-600"
-                  placeholder="Enter user name"
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -50,12 +92,14 @@ const Forgot = () => {
 
             <div className="!mt-8">
               <button
+              onClick={handleSubmit}
                 type="button"
                 className="w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-pink-600 hover:bg-pink-700 focus:outline-none"
               >
                 Continue
               </button>
             </div>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         </div>
       </div>

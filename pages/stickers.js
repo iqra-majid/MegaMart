@@ -2,12 +2,16 @@ import React from "react";
 import Link from "next/link";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
+import Image from "next/image";
+import Head from "next/head";
 
 const Stickers = ({ products }) => {
-  // console.log("Products in component:", products);
   return (
     <div>
-      <section className="text-gray-600 body-font">
+       <Head>
+<title>Stickers - MegaMart</title>
+      </Head>
+      <section className="text-gray-600 body-font min-h-screen mx-5">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap -m-4 justify-center">
           {products.length === 0 && <p>Sorry all the stickers are out of stock .New stock coming soon !<b> Stay Tuned</b></p>}
@@ -19,11 +23,14 @@ const Stickers = ({ products }) => {
               >
                 <Link href={`/products/${product.slug}`} passHref className="block relative rounded overflow-hidden">
                   
-                    <img
-                      alt={product.title}
-                      className="m-auto h-[30vh] md:h-[36vh] block"
-                      src={product.img}
-                    />
+                <Image
+                    alt={product.title}
+                    className="m-auto block"
+                    src={product.img}
+                    width={600} // Set an appropriate width
+                    height={400} // Set an appropriate height
+                    layout="intrinsic" // or layout="responsive" based on your needs
+                  />
                   
                 </Link>
                 <div className="mt-4 text-center md:text-left">

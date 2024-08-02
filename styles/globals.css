@@ -42,3 +42,45 @@ body {
     text-wrap: balance;
   }
 }
+
+
+
+/* styles/globals.css */
+.mock-checkout {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.mock-card-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#submit {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#submit:disabled {
+  background-color: #ccc;
+}
+
+.result-message {
+  margin-top: 20px;
+  color: green;
+}
+
+.result-message.hidden {
+  display: none;
+}

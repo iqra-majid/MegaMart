@@ -3,9 +3,10 @@ import connectDb from "@/middleware/mongoose";
 import User from "@/models/User";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
-
-const secretKey = process.env.SECRET_KEY || "your-secret-key";
-const jwtKey = process.env.JWT_KEY || "secret-key123";
+// This one is for AES secret key
+const secretKey = process.env.AES_SECRET;
+// This one is for jwt
+const jwtKey = process.env.JWT_KEY;
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
@@ -13,12 +14,16 @@ const handler = async (req, res) => {
       let user = await User.findOne({ email: req.body.email });
       const bytes = CryptoJS.AES.decrypt(user.password, secretKey);
       let decryptPass = bytes.toString(CryptoJS.enc.Utf8);
-      console.log(decryptPass);
+      // console.log(decryptPass);
       if (user) {
         if (req.body.email == user.email && req.body.password == decryptPass) {
-          let token = jwt.sign({ email: user.email, name: user.name }, jwtKey,{ expiresIn: '2d' });
+          let token = jwt.sign({ email: user.email, name: user.name }, jwtKey, {
+            expiresIn: "2d",
+          });
 
-          res.status(200).json({ success:true , token});
+          res
+            .status(200)
+            .json({ success: true, email: user.email, token: token });
         } else {
           res
             .status(400)

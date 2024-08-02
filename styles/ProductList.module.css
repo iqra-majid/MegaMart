@@ -1,0 +1,100 @@
+/* styles/ProductTable.module.css */
+
+/* Container for the table */
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  /* Styling for the table */
+  .styledTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Table header styles */
+  .styledTable thead tr {
+    background-color: #e085b9;
+    color: #fff;
+    text-align: left;
+  }
+  
+  .styledTable th {
+    padding: 12px 15px;
+    border-bottom: 2px solid #e085b9;
+    font-size: 16px;
+  }
+  
+  /* Table body row styles */
+  .styledTable tbody tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .styledTable tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .styledTable td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    font-size: 14px;
+  }
+  
+  /* Button styles */
+  .editBtn {
+    padding: 8px 12px;
+    background-color: #994de0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 5px;
+  }
+  
+  .editBtn:hover {
+    background-color: #5c1274;
+  }
+  
+  .deleteBtn {
+    padding: 8px 12px;
+    background-color: #e63946;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .deleteBtn:hover {
+    background-color: #a62e34;
+  }
+  
+  /* Responsive table */
+  @media (max-width: 768px) {
+    .styledTable thead {
+      display: none;
+    }
+    .styledTable, .styledTable tbody, .styledTable tr, .styledTable td {
+      display: block;
+      width: 100%;
+    }
+    .styledTable td {
+      text-align: right;
+      position: relative;
+      padding-left: 50%;
+    }
+    .styledTable td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      top: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+  

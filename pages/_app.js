@@ -3,16 +3,23 @@ import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
+import LoadingBar from "react-top-loading-bar";
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
-  const [user, setUser] = useState({value:null})
-  const [key, setKey] = useState(0)
+  const [user, setUser] = useState({ value: null });
+  const [key, setKey] = useState();
+  const [progress, setProgress] = useState(0);
   const router = useRouter();
   useEffect(() => {
     // Runs when we reload the page
+    router.events.on("routeChangeStart", () => {
+      setProgress(40);
+    });
+    router.events.on("routeChangeComplete", () => {
+      setProgress(100);
+    });
     try {
       // The if statement checks if there is indeed a value stored under the key "cart" in localStorage.
       if (localStorage.getItem("cart")) {
@@ -25,15 +32,14 @@ export default function App({ Component, pageProps }) {
       localStorage.clear();
     }
 
-    const token = localStorage.getItem('token');
-    // console.log('Retrieved token:', token);
-    if(token){
-      setUser({user:token})
-      setKey(Math.random())
-      console.log(user);
-    }
+    const token = localStorage.getItem("token");
 
-  }, [router.query]);
+    if (token) {
+      setUser({ value: token });
+    }
+    // console.log(user);
+    setKey(Math.random());
+  }, [router]);
 
   const saveCart = (myCart) => {
     localStorage.setItem("cart", JSON.stringify(myCart));
@@ -58,15 +64,15 @@ export default function App({ Component, pageProps }) {
     }
     // Update the state with the newCart object
     setCart(newCart);
-    
+
     // Save the updated cart to localStorage or another persistence mechanism
     saveCart(newCart);
     // Show the toast notification
-    
   };
 
   const buyNow = (itemCode, qty, price, name) => {
-    let newCart = {itemCode:{ qty: 1, price, name }};
+    let newCart = {};
+    newCart[itemCode] = { qty: 1, price, name };
 
     setCart(newCart);
 
@@ -99,25 +105,35 @@ export default function App({ Component, pageProps }) {
     saveCart(newCart);
   };
 
-  const logout  = ()=>{
-    localStorage.removeItem('token');
-    setUser({value:null})
-    setKey(Math.random())
-  }
+  const logout = () => {
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("token");
+    setUser({ value: null });
+    setKey(Math.random());
+    router.push("/");
+  };
 
   return (
     <>
-      {/* Passing these methods to navbar and components so we can use them  */}
-      <Navbar
-      logout={logout}
-      key={key}
-      user={user}
-        cart={cart}
-        addToCart={addToCart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-        subTotal={subTotal}
+      <LoadingBar
+        color="#f04fd7"
+        progress={progress}
+        waitingTime={300}
+        onLoaderFinished={() => setProgress(0)}
       />
+      {/* Passing these methods to navbar and components so we can use them  */}
+      {key && (
+        <Navbar
+          logout={logout}
+          key={key}
+          user={user}
+          cart={cart}
+          addToCart={addToCart}
+          removeFromCart={removeFromCart}
+          clearCart={clearCart}
+          subTotal={subTotal}
+        />
+      )}
       <Component
         buyNow={buyNow}
         cart={cart}
@@ -128,7 +144,6 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
       />
       <Footer />
-      
     </>
   );
 }

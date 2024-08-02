@@ -1,0 +1,63 @@
+.wrapper .sidebar{
+  background: rgb(241, 204, 247);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 225px;
+  height: 100%;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+}
+
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarListItem {
+  border-bottom: 1px solid #10558d;
+}
+
+.sidebarLink {
+  display: block;
+  padding: 13px 30px;
+  color: rgb(181, 0, 209);
+  font-size: 16px;
+  position: relative;
+}
+
+.sidebarLinkIcon {
+  color: #d68cfb;
+  width: 30px;
+  display: inline-block;
+}
+
+.sidebarLink:hover {
+  padding-left: 40px;
+}
+
+.sidebarLink:hover,
+.sidebarLink.active {
+  color: #d84aff;
+  background: white;
+  border-right: 2px solid rgb(227, 87, 255);
+}
+
+.sidebarLinkIcon:hover,
+.sidebarLinkIcon.active {
+  color: #0c7db1;
+}
+
+.sidebarLink:hover::before,
+.sidebarLink.active::before {
+  content: "";
+  display: block;
+  /* Add more styling here as needed */
+}
+.mainContent {
+  margin-left: 250px; /* Ensure space for the sidebar */
+  padding: 20px;
+  flex: 1;
+}

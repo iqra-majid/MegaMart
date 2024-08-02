@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import Head from "next/head";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+
+
+  const router = useRouter();
+  useEffect (() => {
+    if(localStorage.getItem('token')){
+     router.push('/')
+    }
+   
+   }, [router]); // Add router as a dependency here
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
+  const [address, setAddress] = useState('');
+  const [pincode, setPincode] = useState('');
+  const [phone, setPhone] = useState(''); 
+
   const handleChange = (e) => {
     if (e.target.name == "name") {
       setName(e.target.value);
@@ -17,14 +29,20 @@ const Signup = () => {
       setEmail(e.target.value);
     } else if (e.target.name == "password") {
       setPassword(e.target.value);
+    } else if (e.target.name == "address") {
+      setAddress(e.target.value);
+    } else if (e.target.name == "pincode") {
+      setPincode(e.target.value);
+    } else if (e.target.name == "phone") {
+      setPhone(e.target.value);
     }
   };
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formBody = { name, email, password };
-    console.log(name,email,password);
-    let res = await fetch("http://localhost:3000/api/signup", {
+    const formBody = { name, email, password,address,phone,pincode };
+    // console.log(name,email,password);
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -38,7 +56,10 @@ const Signup = () => {
     setEmail("");
     setName("");
     setPassword("");
-    toast.success("🦄 You singedup seccessfully!", {
+    setAddress('');
+    setPhone("");
+    setPincode('');
+    toast.success("🦄 You singedup successfully!", {
       position: "top-left",
       autoClose: 5000,
       hideProgressBar: false,
@@ -49,6 +70,10 @@ const Signup = () => {
       theme: "light",
       transition: Bounce,
     });
+    setTimeout(() => {
+      router.push('/login')
+      
+    }, 1000);
   };
   return (
     <div className="flex flex-col justify-center font-[sans-serif] text-[#333] sm:h-screen p-4">
@@ -65,7 +90,10 @@ pauseOnHover
 theme="light"
 transition= {Bounce}
 />
-      <div className="max-w-md w-full mx-auto border border-gray-300 rounded-md p-6">
+<Head>
+<title>Signup to MegaMart</title>
+      </Head>
+      <div className="max-w-md w-full mx-auto border border-gray-300 rounded-md p-6 min-h-screen">
         <form onSubmit={handleSubmit}>
           <div className="mb-8">
             <h3 className="text-gray-800 text-3xl font-extrabold">Sign up</h3>
@@ -110,20 +138,51 @@ transition= {Bounce}
               />
             </div>
 
-            {/* <div className="flex items-center">
+            <div className="space-y-6">
+            <div>
+              <label className="text-sm mb-2 block">Address</label>
               <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 shrink-0 text-pink-600 focus:ring-pink-500 border-gray-300 rounded"
+              value={address}
+                onChange={handleChange}
+                id="address"
+                name="address"
+                type="text"
+                className="bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-pink-500"
+                placeholder="Enter address"
               />
-              <label htmlFor="remember-me" className="ml-3 block text-sm">
-                I accept the{" "}
-                
-                  Terms and Conditions
-                
-              </label>
-            </div> */}
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <label className="text-sm mb-2 block">Pincode</label>
+              <input
+              value={pincode}
+                onChange={handleChange}
+                id="pincode"
+                name="pincode"
+                type="text"
+                className="bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-pink-500"
+                placeholder="Enter pincode"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <label className="text-sm mb-2 block">Phone</label>
+              <input
+              value={phone}
+                onChange={handleChange}
+                id="phone"
+                name="phone"
+                type="text"
+                className="bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-pink-500"
+                placeholder="Enter phone number"
+              />
+            </div>
+          </div>
+
           </div>
           <div className="!mt-10">
             <button

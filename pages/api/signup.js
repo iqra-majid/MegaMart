@@ -2,17 +2,21 @@
 import connectDb from "@/middleware/mongoose";
 import User from "@/models/User";
 import CryptoJS from "crypto-js";
-const secretKey = process.env.SECRET_KEY || "your-secret-key";
+const secretKey = process.env.AES_SECRET ;
+
 const handler = async (req, res) => {
   if (req.method === "POST") {
     try {
       //   console.log(req.body);
 
-      const { name, email } = req.body;
+      const { name, email,password,address,pincode,phone } = req.body;
       let u = new User({
         name,
         email,
         password: CryptoJS.AES.encrypt(req.body.password, secretKey).toString(),
+        address,
+        pincode,
+        phone
       });
       await u.save();
 

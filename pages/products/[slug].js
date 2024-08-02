@@ -3,22 +3,29 @@ import { useRouter } from "next/router";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-
-
-const Slug = ({ addToCart, product, buyNow }) => {
+import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
+import Error from 'next/error'
+import Head from "next/head";
+const Slug = ({ addToCart, product, buyNow ,error}) => {
   // console.log(variants);
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setPin] = useState();
   const [service, setService] = useState();
-  const checkServiceability = async () => {
-    
 
-    let pins = await fetch("http://localhost:3000/api/pincode");
+
+// useEffect(() => {
+  
+ 
+// }, [])
+
+
+  const checkServiceability = async () => {
+    let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
     let pinJson = await pins.json();
     console.log(pinJson);
-    if (pinJson.includes(parseInt(pin))) {
+    if (Object.keys(pinJson).includes(pin)) {
       setService(true);
       toast.success("🦄 Your Pincode is serviceable", {
         position: "top-right",
@@ -29,7 +36,6 @@ const Slug = ({ addToCart, product, buyNow }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-       
       });
     } else {
       setService(false);
@@ -42,7 +48,6 @@ const Slug = ({ addToCart, product, buyNow }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        
       });
     }
   };
@@ -50,9 +55,17 @@ const Slug = ({ addToCart, product, buyNow }) => {
   const onChangePin = (e) => {
     setPin(e.target.value);
   };
+
+  if (error == 404) {
+    return <Error statusCode={404} />
+  }
+
   return (
     <>
-      <section className="text-gray-600 body-font overflow-hidden">
+      <section className="text-gray-600 body-font overflow-hidden min-h-screen">
+      <Head>
+      <title>Product Details - MegaMart</title>
+    </Head>
         <ToastContainer
           position="top-right"
           autoClose={1999}
@@ -64,14 +77,15 @@ const Slug = ({ addToCart, product, buyNow }) => {
           draggable
           pauseOnHover
           theme="light"
-         
         />
         <div className="container px-5 py-16 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img
+            <Image
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-auto px-20 object-cover object-top rounded"
               src={product.img}
+              width={600} // Set an appropriate width
+                    height={600} 
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -172,23 +186,28 @@ const Slug = ({ addToCart, product, buyNow }) => {
               </div>
               <p className="leading-relaxed">{product.desc}</p>
 
-              <div className="flex py-4">
-                <span className="title-font font-medium text-2xl text-gray-900 ">
+              <div className="product-actions flex flex-col md:flex-row md:justify-start items-center space-x-4">
+              {product.availableQty >  0 && <span className="title-font font-medium text-2xl text-gray-900 ">
                   $ {product.price}
-                </span>
+                </span>}
+               {product.availableQty <= 0 && <span className="title-font font-medium text-xl  text-gray-900 ">
+                 Out of Stock!
+                </span>}
                 <button
+                  disabled={product.availableQty <= 0}
                   onClick={() => {
                     buyNow(slug, 1, product.price, product.title);
                   }}
-                  className="flex ml-8 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                  className="disabled:bg-pink-300 flex ml-8 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
                 >
                   Buy Now
                 </button>
                 <button
+                  disabled={product.availableQty <= 0}
                   onClick={() => {
                     addToCart(slug, 1, product.price, product.title);
                   }}
-                  className="flex ml-4 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                  className="disabled:bg-pink-300 flex ml-4 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
                 >
                   Add to Cart
                 </button>
@@ -242,8 +261,19 @@ export async function getServerSideProps(context) {
     console.log("MongoDB connected ");
     // Use try-catch block to handle potential connection errors
   }
+  
 
   const product = await Product.findOne({ slug: context.query.slug });
+
+
+  let error=null;
+  if(product == null){
+    return {
+      props: {
+        error:404
+      }, // will be passed to the page component as props
+    };
+  }
 
   return {
     props: {
