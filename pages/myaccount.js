@@ -193,7 +193,7 @@ const MyAccount = () => {
 
 
   return (
-    <div className="container mx-auto my-9">
+    <div className="container mx-auto my-9  ">
       <ToastContainer
         position="top-left"
         autoClose={5000}
@@ -207,8 +207,8 @@ const MyAccount = () => {
         theme="light"
         transition={Bounce}
       />
-      <h1 className="text-3xl text-center font-bold">Update your Account</h1>
-      <h2 className="font-normal text-xl">Delivery Details</h2>
+      <h1 className="text-3xl text-center font-bold mb-6">Update your Account</h1>
+      <h2 className="font-normal text-xl ml-3">Delivery Details</h2>
       <div className="flex mx-auto my-2">
         <div className="px-2 w-1/2">
           <div className=" mb-4">
@@ -228,7 +228,7 @@ const MyAccount = () => {
 
         <div className="px-2 w-1/2">
           <div className="mb-4">
-            <label htmlFor="email" className="leading-7 text-sm text-gray-600">
+            <label htmlFor="email" className="leading-7 text-sm text-gray-600 whitespace-nowrap">
               Email (Can not be updated)
             </label>
             <input
@@ -306,7 +306,7 @@ const MyAccount = () => {
       >
         Submit
       </button>
-      <h2 className="font-normal text-xl">Change password</h2>
+      <h2 className="font-normal text-xl ml-3">Change password</h2>
       <div className="flex mx-auto my-2">
         <div className="px-2 w-1/2">
           <div className=" mb-4">
@@ -333,7 +333,7 @@ const MyAccount = () => {
           <div className=" mb-4">
             <label
               htmlFor="npassword"
-              className="leading-7 text-sm text-gray-600"
+              className="leading-7 text-sm text-gray-600 whitespace-nowrap"
             >
               New password
             </label>
@@ -352,7 +352,7 @@ const MyAccount = () => {
           <div className=" mb-4">
             <label
               htmlFor="cpassword"
-              className="leading-7 text-sm text-gray-600"
+              className="leading-7 text-sm text-gray-600 whitespace-nowrap"
             >
               Confirm New password
             </label>

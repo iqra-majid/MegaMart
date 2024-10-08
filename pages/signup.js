@@ -9,12 +9,8 @@ const Signup = () => {
 
 
   const router = useRouter();
-  useEffect (() => {
-    if(localStorage.getItem('token')){
-     router.push('/')
-    }
-   
-   }, [router]); // Add router as a dependency here
+
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +33,14 @@ const Signup = () => {
       setPhone(e.target.value);
     }
   };
+
+  useEffect (() => {
+    if(localStorage.getItem('token')){
+     router.push('/')
+    }
+    
+   }, [router]); // Add router as a dependency here
+
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,6 +53,9 @@ const Signup = () => {
       },
       body: JSON.stringify(formBody),
     });
+
+    
+
     let response = await res.json();
     console.log(response);
     
@@ -59,24 +66,41 @@ const Signup = () => {
     setAddress('');
     setPhone("");
     setPincode('');
-    toast.success("🦄 You singedup successfully!", {
-      position: "top-left",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-    setTimeout(() => {
-      router.push('/login')
-      
-    }, 1000);
+
+    if (res.status === 200 && response.success) {
+      toast.success("🦄 You singedup successfully!", {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setTimeout(() => {
+        router.push('/login')
+        
+      }, 1000);
+    }else{
+      toast.error("Error signing you up!", {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+
+   
   };
   return (
-    <div className="flex flex-col justify-center font-[sans-serif] text-[#333] sm:h-screen p-4">
+    <div className="font-[sans-serif] min-h-screen flex items-center justify-center">
       <ToastContainer
 position="top-left"
 autoClose={12}
@@ -93,7 +117,7 @@ transition= {Bounce}
 <Head>
 <title>Signup to MegaMart</title>
       </Head>
-      <div className="max-w-md w-full mx-auto border border-gray-300 rounded-md p-6 min-h-screen">
+      <div className=" max-w-md w-full my-28 mx-auto border border-gray-300 rounded-lg p-6 min-h-screen shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)]">
         <form onSubmit={handleSubmit}>
           <div className="mb-8">
             <h3 className="text-gray-800 text-3xl font-extrabold">Sign up</h3>

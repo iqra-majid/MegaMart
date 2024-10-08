@@ -193,7 +193,7 @@ const data = {email,name,oid,cart,address,city,state,pincode,phone,subTotal}
   };
 
   return (
-    <div className="min-h-screen container  text-black m-auto px-40">
+    <div className="min-h-screen container  text-black  md:px-40 px-8 ">
       <ToastContainer
         position="top-left"
         autoClose={5000}
@@ -210,8 +210,8 @@ const data = {email,name,oid,cart,address,city,state,pincode,phone,subTotal}
       <Head>
 <title>Checkout - MegaMart</title>
       </Head>
-      <h1 className="font-bold text-3xl  my-8 text-center ">checkout</h1>
-      <h2 className="font-normal text-xl ">Delivery Details</h2>
+      <h1 className="font-bold text-3xl  my-8 text-center mx-auto">checkout</h1>
+      <h2 className="font-normal text-xl w-40 mx-auto">Delivery Details</h2>
       <div className="flex mx-auto my-2">
         <div className="px-2 w-1/2">
           <div className=" mb-4">
@@ -224,7 +224,7 @@ const data = {email,name,oid,cart,address,city,state,pincode,phone,subTotal}
               type="text"
               id="name"
               name="name"
-              className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
         </div>
@@ -242,7 +242,7 @@ const data = {email,name,oid,cart,address,city,state,pincode,phone,subTotal}
               type="email"
               id="email"
               name="email"
-              className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
         </div>
@@ -259,7 +259,7 @@ const data = {email,name,oid,cart,address,city,state,pincode,phone,subTotal}
             id="address"
             cols="30"
             rows="2 "
-            className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            className="w-full  bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
           ></textarea>
         </div>
         <div className="flex mx-auto my-2">
@@ -398,7 +398,7 @@ const data = {email,name,oid,cart,address,city,state,pincode,phone,subTotal}
           <button
             onClick={initiatePayment}
             disabled={disabled}
-            className="disabled:bg-pink-300 flex text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg"
+            className="disabled:bg-pink-300 flex text-white bg-pink-500 border-0 py-2 md:px-8 px-4 focus:outline-none hover:bg-pink-600 rounded text-lg"
           >
             <IoBagCheckSharp className="m-1" />
             Pay RS {subTotal}

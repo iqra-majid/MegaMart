@@ -10,6 +10,7 @@ const Tshirt = ({ products }) => {
     <div>
        <Head>
 <title>Tshirts - MegaMart</title>
+<link rel="icon" href="favicon.ico" />
       </Head>
       <section className="text-gray-600 body-font min-h-screen mx-5">
         <div className="container px-5 py-24 mx-auto">
@@ -19,7 +20,7 @@ const Tshirt = ({ products }) => {
             {products.map((product) => (
               <div
                 key={product._id}
-                className="lg:w-1/5 md:w-1/2 p-4 w-10 shadow-md m-3"
+                className="lg:w-1/5 md:w-1/2 sm:w-1/3 p-4 w-64 shadow-md m-3"
               >
                 <Link href={`/products/${product.slug}`} passHref className="block relative rounded overflow-hidden">
                   
@@ -64,8 +65,11 @@ export async function getServerSideProps(context) {
     }
 
     const products = await Product.find({ category: "tshirt" });
-    // console.log("Fetched products:", products);
+    
+// console.log("Fetched products:", products);
 
+
+   
 
     return {
       props: {
@@ -74,8 +78,14 @@ export async function getServerSideProps(context) {
     };
   } catch (error) {
     console.error("Error fetching products:", error);
-    
+    return {
+      props: {
+        products: [], // Return an empty array or handle as needed
+        error: "Failed to fetch products", // Optionally pass an error message
+      },
+    };
   }
 }
+
 
 export default Tshirt;

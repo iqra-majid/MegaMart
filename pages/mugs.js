@@ -24,7 +24,7 @@ const Mugs = ({ products }) => {
             {products.map((product) => (
               <div
                 key={product._id}
-                className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3"
+                className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3 "
               >
                 <Link
                   href={`/products/${product.slug}`}
@@ -33,11 +33,11 @@ const Mugs = ({ products }) => {
                 >
                   <Image
                     alt={product.title}
-                    className="m-auto block"
+                    className="m-auto block h-96"
                     src={product.img}
                     width={600} // Set an appropriate width
                     height={400} // Set an appropriate height
-                    layout="intrinsic" // or layout="responsive" based on your needs
+                   
                   />
                 </Link>
                 <div className="mt-4 text-center md:text-left">

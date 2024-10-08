@@ -1,6 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import connectDb from "@/middleware/mongoose";
 import Product from "@/models/Product";
 import upload from "@/middleware/upload"; // Ensure this is correctly set up to handle file uploads
@@ -56,41 +54,4 @@ export default connectDb(handler);
 
 
 
-// import connectDb from "@/middleware/mongoose";
-// import Product from "@/models/Product";
-// import upload from "@/middleware/upload";
 
-// export const config = {
-//   api: {
-//     bodyParser: false, // Disable bodyParser to allow multer to handle form data
-//   },
-// };
-
-// const handler = async (req, res) => {
-//   if (req.method === "POST") {
-//     try {
-
-//       const productData = req.body;
-      
-//       const product = new Product({
-//         title: productData.title,
-//         slug: productData.slug,
-//         desc: productData.desc,
-//         img: productData.image,
-//         category: productData.type,
-//         price: productData.price,
-//         availableQty: productData.availableQty || 0, // Default to 0 if not provided
-//       });
-//         await product.save();
-     
-//       res.status(200).json({ success: "Products saved successfully" });
-//     } catch (error) {
-//       console.error("Error saving products:", error);
-//       res.status(500).json({ error: "Failed to save products" });
-//     }
-//   } else {
-//     res.status(400).json({ error: "Method not allowed" });
-//   }
-// };
-
-// export default connectDb(handler);

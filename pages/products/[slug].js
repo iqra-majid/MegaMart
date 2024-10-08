@@ -78,8 +78,8 @@ const Slug = ({ addToCart, product, buyNow ,error}) => {
           pauseOnHover
           theme="light"
         />
-        <div className="container px-5 py-16 mx-auto">
-          <div className="lg:w-4/5 mx-auto flex flex-wrap">
+        <div className="container px-5 py-16 mx-5">
+          <div className="lg:w-4/5 mx-5 flex flex-wrap">
             <Image
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-auto px-20 object-cover object-top rounded"
@@ -88,6 +88,7 @@ const Slug = ({ addToCart, product, buyNow ,error}) => {
                     height={600} 
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
                 BRAND NAME
               </h2>
@@ -186,19 +187,20 @@ const Slug = ({ addToCart, product, buyNow ,error}) => {
               </div>
               <p className="leading-relaxed">{product.desc}</p>
 
-              <div className="product-actions flex flex-col md:flex-row md:justify-start items-center space-x-4">
-              {product.availableQty >  0 && <span className="title-font font-medium text-2xl text-gray-900 ">
+              <div className="product-actions flex flex-col md:flex-row  items-center space-x-4 space-y-4">
+              {product.availableQty >  0 && <span className="title-font font-medium text-2xl text-gray-900 whitespace-nowrap">
                   $ {product.price}
                 </span>}
                {product.availableQty <= 0 && <span className="title-font font-medium text-xl  text-gray-900 ">
                  Out of Stock!
                 </span>}
+              
                 <button
                   disabled={product.availableQty <= 0}
                   onClick={() => {
                     buyNow(slug, 1, product.price, product.title);
                   }}
-                  className="disabled:bg-pink-300 flex ml-8 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                  className="disabled:bg-pink-300  flex ml-8 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
                 >
                   Buy Now
                 </button>
@@ -207,10 +209,12 @@ const Slug = ({ addToCart, product, buyNow ,error}) => {
                   onClick={() => {
                     addToCart(slug, 1, product.price, product.title);
                   }}
-                  className="disabled:bg-pink-300 flex ml-4 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                  className="disabled:bg-pink-300  flex ml-4 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
                 >
                   Add to Cart
                 </button>
+               
+                
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg
                     fill="currentColor"
@@ -223,7 +227,7 @@ const Slug = ({ addToCart, product, buyNow ,error}) => {
                   </svg>
                 </button>
               </div>
-              <div className="pin mt-6 flex space-x-2 ">
+              <div className="pin mt-6 flex space-x-2 justify-center md:justify-start">
                 <input
                   onChange={onChangePin}
                   className="px-2 border-2 border-gray-400 rounded-md"

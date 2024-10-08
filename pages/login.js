@@ -39,7 +39,7 @@ const Login = () => {
       body: JSON.stringify(formBody),
     });
     let response = await res.json();
-    console.log(response);
+    // console.log(response);
     
    
 if(response.success){

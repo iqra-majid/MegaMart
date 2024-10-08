@@ -19,6 +19,13 @@ const Navbar = ({
   clearCart,
 }) => {
   // console.log(user.value);
+
+  const [dropdown, setDropdown] = useState(false);
+
+  const toggledropdown = () => {
+    setDropdown(!dropdown);
+  };
+
   const toggleClick = () => {
     if (ref.current.classList.contains("translate-x-full")) {
       ref.current.classList.remove("translate-x-full");
@@ -30,15 +37,14 @@ const Navbar = ({
   };
   const ref = useRef();
 
-  const [dropdown, setDropdown] = useState(false);
   const router = useRouter();
   const { pathname } = router;
   const isAdminPage = pathname.startsWith("/admin");
   return (
     <>
       {!isAdminPage && (
-        <div className="navbar flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-xl sticky top-0 bg-white z-10 ">
-          <div className="logo md:mx-8 mr-auto my-4 ">
+        <div className="navbar flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-xl sticky top-0 bg-white z-50 ">
+          <div className="logo md:mx-8 mr-auto ml-4 my-4 ">
             <Link href={"/"}>
               <Image
                 src="/logo.png"
@@ -63,55 +69,46 @@ const Navbar = ({
               <Link href={"/stickers"} className="hover:text-pink-600">
                 <li>Stickers</li>
               </Link>
+              
             </ul>
           </div>
+         
           <div className="cart absolute items-center right-0 top-4 mx-5 my-4 flex cursor-pointer">
-            <span
-              onMouseOver={() => {
-                setDropdown(true);
-              }}
-              onMouseLeave={() => {
-                setDropdown(false);
-              }}
-            >
+            <div className="relative inline-block">
+              {user.value && (
+                <MdAccountCircle
+                  className="text-xl md:text-3xl mx-2 mb-4 cursor-pointer"
+                  onClick={toggledropdown}
+                />
+              )}
+
               {dropdown && (
-                <div
-                  className="absolute right-8 bg-white shadow-lg border  top-6 py-4 px-5 rounded-md w-40"
-                  onMouseOver={() => {
-                    setDropdown(true);
-                  }}
-                  onMouseLeave={() => {
-                    setDropdown(false);
-                  }}
-                >
+                <div className="absolute lg:right-8 right-5 bg-white shadow-lg border top-4 py-4 px-5 rounded-md w-40">
                   <ul>
-                    <Link href={"/myaccount"}>
-                      <li className="py-1 hover:text-pink-700 text-sm font-bold">
+                    <Link href="/myaccount">
+                      <li className="py-1 hover:text-pink-700 text-sm font-bold cursor-pointer">
                         My Account
                       </li>
                     </Link>
-                    <Link href={"/orders"}>
-                      <li className="py-1 hover:text-pink-700 text-sm font-bold">
-                        My orders
+                    <Link href="/orders">
+                      <li className="py-1 hover:text-pink-700 text-sm font-bold cursor-pointer">
+                        My Orders
                       </li>
                     </Link>
                     <li
                       onClick={logout}
-                      className="py-1 hover:text-pink-700 text-sm font-bold"
+                      className="py-1 hover:text-pink-700 text-sm font-bold cursor-pointer"
                     >
                       Logout
                     </li>
                   </ul>
                 </div>
               )}
-              {user.value && (
-                <MdAccountCircle className="text-xl md:text-3xl mx-2" />
-              )}
-            </span>
+            </div>
 
             {!user.value && (
               <Link href="/login">
-                <button className="bg-pink-600 px-2 py-1 round-md text-sm text-white mx-2">
+                <button className="bg-pink-600 px-2 py-1 round-md text-sm text-white mx-2 mb-4">
                   Login
                 </button>
               </Link>
@@ -119,14 +116,17 @@ const Navbar = ({
 
             {!user.value && (
               <Link href="/signup">
-                <button className="bg-pink-600 px-2 py-1 round-md text-sm text-white mx-4">
+                <button className="bg-pink-600 px-2 py-1 round-md text-sm text-white mx-4 mb-4">
                   Signup
                 </button>
               </Link>
             )}
 
             <button>
-              <GrCart onClick={toggleClick} className="text-xl md:text-3xl" />
+              <GrCart
+                onClick={toggleClick}
+                className="text-xl md:text-3xl mb-4"
+              />
             </button>
           </div>
 
@@ -190,7 +190,7 @@ const Navbar = ({
               <Link href={"/checkout"}>
                 <button
                   disabled={Object.keys(cart).length === 0}
-                  className="disabled:bg-pink-300 flex mx-auto mt-14 text-white bg-pink-500 border-0 py-2 px-8 md:px-4 focus:outline-none hover:bg-pink-600 rounded text-lg"
+                  className="disabled:bg-pink-300 flex mx-auto mt-14 text-white bg-pink-500 border-0 py-2 px-4 md:px-8 focus:outline-none hover:bg-pink-600 rounded text-lg"
                 >
                   <IoBagCheckSharp className="m-1" />
                   Checkout
@@ -200,7 +200,7 @@ const Navbar = ({
               <button
                 disabled={Object.keys(cart).length === 0}
                 onClick={clearCart}
-                className="disabled:bg-pink-300 flex mx-2 mt-14 text-white bg-pink-500 border-0 py-2 px-8 md:px-8 focus:outline-none hover:bg-pink-600 rounded text-lg md:text-sm"
+                className="disabled:bg-pink-300 mx-2  mt-14 text-white bg-pink-500 py-2 px-4 md:px-8 focus:outline-none hover:bg-pink-600 rounded text-lg "
               >
                 Clear Cart
               </button>
